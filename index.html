@@ -24,6 +24,7 @@ cd WiFi-22.250.1-Driver64-Win10-Win11
 pnputil /add-driver *.inf /subdirs
 
 # Clean up the driver folder
+cd $env:USERPROFILE\Downloads
 Remove-Item -Recurse -Force WiFi-22.250.1-Driver64-Win10-Win11
 
 # Open Windows Update settings page
