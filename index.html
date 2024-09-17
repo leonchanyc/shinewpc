@@ -1,8 +1,8 @@
-# Open Power & Sleep settings
-Start-Process "ms-settings:powersleep"
-
 # Open Windows Update settings page
 Start-Process "ms-settings:windowsupdate"
+
+# Open Power & Sleep settings
+Start-Process "ms-settings:powersleep"
 
 # Change to Downloads directory
 cd $env:USERPROFILE\Downloads
@@ -26,9 +26,9 @@ Remove-Item WiFi-22.250.1-Driver64-Win10-Win11.zip
 cd WiFi-22.250.1-Driver64-Win10-Win11
 pnputil /add-driver *.inf /subdirs
 
-# Clean up the driver folder
-cd $env:USERPROFILE\Downloads
-Remove-Item -Recurse -Force WiFi-22.250.1-Driver64-Win10-Win11
+# Clean up the driver folder,  Not to remove in case pnputil didn't work
+# cd $env:USERPROFILE\Downloads
+# Remove-Item -Recurse -Force WiFi-22.250.1-Driver64-Win10-Win11
 
 # Open Device Manager to verify wifi driver version
 devmgmt
