@@ -22,8 +22,13 @@ cd $env:USERPROFILE\Downloads
 # Remove previous driver folder if it exists
 Remove-Item -Recurse -Force -ErrorAction SilentlyContinue WiFi-22.250.1-Driver64-Win10-Win11
 
-# Open Chrome in incognito mode to download Lenovo Vantage from app Store
+# Open Chrome in incognito mode to download Lenovo Vantage from app Store or website
 Start-Process "chrome.exe" -ArgumentList "--incognito https://apps.microsoft.com/detail/9nr5b8gvvm13?hl=en-US&gl=US"
+timeout 1
+Start-Process "chrome.exe" -ArgumentList "--incognito https://support.lenovo.com/us/en/solutions/hf003321-lenovo-vantage-for-enterprise"
+
+# Download Lenovo_Vantage in background
+Start-Process "curl" -ArgumentList "-o Lenovo_Vantage.zip", "https://download.lenovo.com/pccbbs/thinkvantage_en/metroapps/Vantage/LenovoCommercialVantage_10.2501.15.0_v3.zip"
 
 # Download the wifi driver
 curl -o WiFi-22.250.1-Driver64-Win10-Win11.zip "https://content.evernote.com/shard/s395/sh/14e605bd-51e6-48c2-3fe1-62bb546a7c68/VlbmcEcSxpd8daKgUf5F1Ks9pkqZ0nGnDgOm8dzzjUVtBJlS9y4bR_OCBg/res/b593f6de-ba61-a24a-41c0-edf7c7bcc1e2"
