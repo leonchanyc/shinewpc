@@ -13,8 +13,7 @@ powercfg /change standby-timeout-ac 0
 # Open Windows Update settings page
 Start-Process "ms-settings:windowsupdate"
 
-# Open Power & Sleep settings
-Start-Process "ms-settings:powersleep"
+
 
 # Change to Downloads directory
 cd $env:USERPROFILE\Downloads
@@ -48,4 +47,18 @@ pnputil /add-driver *.inf /subdirs
 
 # Open Device Manager to verify wifi driver version
 devmgmt
+
+# Get the serial number
+$serialNumber = wmic bios get serialnumber
+
+# Check if the serial number contains "PF3"
+if ($serialNumber -match "PF3") {
+    # Display an alert if "PF3" is found
+# Open Power & Sleep settings
+Add-Type -AssemblyName System.Windows.Forms
+[System.Windows.Forms.MessageBox]::Show("For P14s, change Power mode to Best power efficiency(On battery & Plugged in)", "Popup Title", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Information)
+Start-Process "ms-settings:powersleep"
+}
+
+
                     
