@@ -51,12 +51,15 @@ devmgmt
 # Get the serial number
 $serialNumber = wmic bios get serialnumber
 
-# Check if the serial number contains "PF3"
-if ($serialNumber -match "PF3") {
-    # Display an alert if "PF3" is found
-# Open Power & Sleep settings
+# Check if the serial number contains "PF3X"
+if ($serialNumber -match "PF3X") {
+
+# Display an alert if "PF3X" is found
+
 Add-Type -AssemblyName System.Windows.Forms
 [System.Windows.Forms.MessageBox]::Show("For P14s, change Power mode to Best power efficiency(On battery & Plugged in)", "Popup Title", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Information)
+
+# Open Power & Sleep settings
 Start-Process "ms-settings:powersleep"
 }
 
