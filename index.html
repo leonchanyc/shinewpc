@@ -10,27 +10,23 @@ powercfg /change standby-timeout-dc 0
 #For plugged in (after 0 minutes)
 powercfg /change standby-timeout-ac 0
 
-# Open Windows Update settings page
-Start-Process "ms-settings:windowsupdate"
-
-
-
 # Change to Downloads directory
 cd $env:USERPROFILE\Downloads
 
+# Download Lenovo_Vantage in the background
+$downloadProcess = Start-Process "curl" -ArgumentList "-o Lenovo_Vantage.zip", "https://download.lenovo.com/pccbbs/thinkvantage_en/metroapps/Vantage/LenovoCommercialVantage_10.2501.15.0_v3.zip" -PassThru
+
+# Wait for the download to finish
+$downloadProcess.WaitForExit()
+
+# Extract the zip only after the download is complete
+Expand-Archive -Path "Lenovo_Vantage.zip" -DestinationPath "Lenovo_Vantage"
+
+# Run the setup after extraction is done
+Start-Process -FilePath "Lenovo_Vantage\setup-commercial-vantage" -Wait
+
 # Remove previous driver folder if it exists
 Remove-Item -Recurse -Force -ErrorAction SilentlyContinue WiFi-22.250.1-Driver64-Win10-Win11
-
-# Open Chrome in incognito mode to download Lenovo Vantage from app Store or website
-Start-Process "chrome.exe" -ArgumentList "--incognito https://apps.microsoft.com/detail/9nr5b8gvvm13?hl=en-US&gl=US"
-timeout 1
-Start-Process "chrome.exe" -ArgumentList "--incognito https://support.lenovo.com/us/en/solutions/hf003321-lenovo-vantage-for-enterprise"
-
-# Download Lenovo_Vantage in background
-Start-Process "curl" -ArgumentList "-o Lenovo_Vantage.zip", "https://download.lenovo.com/pccbbs/thinkvantage_en/metroapps/Vantage/LenovoCommercialVantage_10.2501.15.0_v3.zip"
-
-# Open Windows Explorer to the Downloads folder
-Start-Process explorer.exe $env:USERPROFILE\Downloads
 
 # Download the wifi driver
 curl -o WiFi-22.250.1-Driver64-Win10-Win11.zip "https://content.evernote.com/shard/s395/sh/14e605bd-51e6-48c2-3fe1-62bb546a7c68/VlbmcEcSxpd8daKgUf5F1Ks9pkqZ0nGnDgOm8dzzjUVtBJlS9y4bR_OCBg/res/b593f6de-ba61-a24a-41c0-edf7c7bcc1e2"
@@ -48,19 +44,45 @@ pnputil /add-driver *.inf /subdirs
 # Open Device Manager to verify wifi driver version
 devmgmt
 
-# Get the serial number
-$serialNumber = wmic bios get serialnumber
+# Get the system's serial number
+$serialNumber = (wmic bios get serialnumber).Trim()
 
 # Check if the serial number contains "PF3X"
 if ($serialNumber -match "PF3X") {
 
-# Display an alert if "PF3X" is found
+    # Display an alert if "PF3X" is found
+    Add-Type -AssemblyName System.Windows.Forms
+    $form = New-Object System.Windows.Forms.Form
+    $form.TopMost = $true  # Ensure the form is always on top
+    $form.StartPosition = [System.Windows.Forms.FormStartPosition]::CenterScreen
 
-Add-Type -AssemblyName System.Windows.Forms
-[System.Windows.Forms.MessageBox]::Show("For P14s, change Power mode to Best power efficiency(On battery & Plugged in)", "Popup Title", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Information)
+    [System.Windows.Forms.MessageBox]::Show($form, "For P14s, change Power mode to Best power efficiency (On battery & Plugged in)", "Popup Title", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Information)
 
-# Open Power & Sleep settings
-Start-Process "ms-settings:powersleep"
+    # Open Power & Sleep settings
+    Start-Process "ms-settings:powersleep"
+
+    $form = New-Object System.Windows.Forms.Form
+    $form.TopMost = $true  # Ensure the form is always on top
+    $form.StartPosition = [System.Windows.Forms.FormStartPosition]::CenterScreen
+
+    [System.Windows.Forms.MessageBox]::Show($form, "Click OK to open Windows update after changing Power mode", "Popup Title", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Information)
+
+    # Open Windows update
+    Start-Process "ms-settings:windowsupdate"
+
+} else {
+
+    # If serial number doesn't contain "PF3X", open Windows update
+    Add-Type -AssemblyName System.Windows.Forms
+    $form = New-Object System.Windows.Forms.Form
+    $form.TopMost = $true  # Ensure the form is always on top
+    $form.StartPosition = [System.Windows.Forms.FormStartPosition]::CenterScreen
+
+    [System.Windows.Forms.MessageBox]::Show($form, "Click OK to open Windows update", "Popup Title", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Information)
+
+    # Open Windows update
+    Start-Process "ms-settings:windowsupdate"
+
 }
 
 
