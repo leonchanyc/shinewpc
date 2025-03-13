@@ -1,3 +1,25 @@
+# Checking the installation of CrowdStrike
+Add-Type -AssemblyName "System.Windows.Forms"
+
+$folderPath = "C:\Windows\System32\drivers\CrowdStrike"
+if (-not (Test-Path $folderPath)) {
+    [System.Windows.Forms.MessageBox]::Show("WARNING: It looks like CrowdStrike is not installed. Please check manually from the Control Panel.", "Folder Not Found")
+}
+
+# Checking if BitLocker is enabled.
+Add-Type -AssemblyName "System.Windows.Forms"
+
+# Specify the drive letter to check (e.g., C: drive)
+$driveLetter = "C:"
+
+# Get BitLocker status for the specified drive
+$bitlockerStatus = Get-BitLockerVolume -MountPoint $driveLetter
+
+# Check if BitLocker is not enabled
+if ($bitlockerStatus.ProtectionStatus -ne 'On') {
+    [System.Windows.Forms.MessageBox]::Show("WARNING: It looks like BitLocker is not enabled. Please check manually from the Control Panel.", "BitLocker Status")
+}
+
 # For battery power (after 0 minutes):
 powercfg /change monitor-timeout-dc 0
 
