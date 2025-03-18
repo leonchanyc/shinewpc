@@ -6,7 +6,7 @@ if (-not (Test-Path $folderPath)) {
     [System.Windows.Forms.MessageBox]::Show("WARNING: It looks like CrowdStrike is not installed. Please check manually from the Control Panel.", "Folder Not Found")
 }
 
-# Checking if BitLocker is enabled.
+# Checking if bitlocker enabled
 Add-Type -AssemblyName "System.Windows.Forms"
 
 # Specify the drive letter to check (e.g., C: drive)
@@ -106,9 +106,10 @@ if ($serialNumber -match "PF3X") {
     $form.TopMost = $true  # Ensure the form is always on top
     $form.StartPosition = [System.Windows.Forms.FormStartPosition]::CenterScreen
 
-    [System.Windows.Forms.MessageBox]::Show($form, "Click OK to open Windows update", "Popup Title", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Information)
+    # No need prompt[System.Windows.Forms.MessageBox]::Show($form, "Click OK to open Windows update", "Popup Title", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Information)
 
     # Open Windows update
     Start-Process "ms-settings:windowsupdate"
 
 }
+
