@@ -91,6 +91,16 @@ if (Test-Path $exePath) {
 
 #######
 
+
+
+
+###### Trying to Windows update
+
+usoclient startscan
+Usoclient startdownload
+usoclient startinstall
+###########
+
 # Get the system's serial number
 $serialNumber = (wmic bios get serialnumber).Trim()
 
