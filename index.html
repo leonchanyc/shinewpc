@@ -72,6 +72,25 @@ pnputil /add-driver *.inf /subdirs
 # Open Device Manager to verify wifi driver version
 devmgmt
 
+
+###### Launch Lenovo_Vantage CommercialVantage.exe when finish install
+# Get the package information for LenovoSettingsforEnterprise
+$appPackage = Get-AppxPackage -Name *LenovoSettingsforEnterprise*
+
+# Extract the InstallLocation and build the path to the .exe
+$installLocation = $appPackage.InstallLocation
+$exePath = Join-Path -Path $installLocation -ChildPath "LenovoVantage\CommercialVantage.exe"
+
+# Check if the .exe exists and launch it
+if (Test-Path $exePath) {
+    Start-Process $exePath
+} else {
+    Write-Host "The specified .exe was not found: $exePath"
+}
+
+
+#######
+
 # Get the system's serial number
 $serialNumber = (wmic bios get serialnumber).Trim()
 
