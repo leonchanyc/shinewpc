@@ -48,7 +48,7 @@ $downloadProcess.WaitForExit()
 Expand-Archive -Path "Lenovo_Vantage.zip" -DestinationPath "Lenovo_Vantage"
 
 # Run the setup after extraction is done
-Start-Process -FilePath "Lenovo_Vantage\VantageInstaller.exe Install -Vantage" -Wait
+Start-Process -FilePath "Lenovo_Vantage\VantageInstaller.exe" -ArgumentList "Install -Vantage" -Wait
 
 # Remove previous WiFi driver folder if it exists
 Remove-Item -Recurse -Force -ErrorAction SilentlyContinue WiFi-22.250.1-Driver64-Win10-Win11
