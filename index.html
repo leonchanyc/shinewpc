@@ -50,29 +50,6 @@ Expand-Archive -Path "Lenovo_Vantage.zip" -DestinationPath "Lenovo_Vantage"
 # Run the setup after extraction is done
 Start-Process -FilePath "Lenovo_Vantage\VantageInstaller.exe" -ArgumentList "Install -Vantage" -Wait
 
-# Remove previous WiFi driver folder if it exists
-Remove-Item -Recurse -Force -ErrorAction SilentlyContinue WiFi-22.250.1-Driver64-Win10-Win11
-
-# Download the wifi driver using Start-Process
-$wifiDownloadProcess = Start-Process "curl" -ArgumentList "-o", "WiFi-22.250.1-Driver64-Win10-Win11.zip", "https://content.evernote.com/shard/s395/sh/14e605bd-51e6-48c2-3fe1-62bb546a7c68/VlbmcEcSxpd8daKgUf5F1Ks9pkqZ0nGnDgOm8dzzjUVtBJlS9y4bR_OCBg/res/b593f6de-ba61-a24a-41c0-edf7c7bcc1e2" -PassThru
-
-# Wait for the download to finish
-$wifiDownloadProcess.WaitForExit()
-
-# Extract the zip
-Expand-Archive -Path "WiFi-22.250.1-Driver64-Win10-Win11.zip" -DestinationPath "WiFi-22.250.1-Driver64-Win10-Win11"
-
-# Remove the zip file
-Remove-Item WiFi-22.250.1-Driver64-Win10-Win11.zip
-
-# Install driver using pnputil
-cd WiFi-22.250.1-Driver64-Win10-Win11
-pnputil /add-driver *.inf /subdirs
-
-# Open Device Manager to verify wifi driver version
-devmgmt
-
-
 ###### Launch Lenovo_Vantage CommercialVantage.exe when finish install
 # Get the package information for LenovoSettingsforEnterprise
 $appPackage = Get-AppxPackage -Name *LenovoSettingsforEnterprise*
@@ -90,55 +67,3 @@ if (Test-Path $exePath) {
 
 
 #######
-
-
-
-
-###### Trying to Windows update
-
-usoclient startscan
-Usoclient startdownload
-usoclient startinstall
-###########
-
-# Get the system's serial number
-$serialNumber = (wmic bios get serialnumber).Trim()
-
-# Check if the serial number contains "PF3X"
-if ($serialNumber -match "PF3X") {
-
-    # Display an alert if "PF3X" is found
-    Add-Type -AssemblyName System.Windows.Forms
-    $form = New-Object System.Windows.Forms.Form
-    $form.TopMost = $true  # Ensure the form is always on top
-    $form.StartPosition = [System.Windows.Forms.FormStartPosition]::CenterScreen
-
-    [System.Windows.Forms.MessageBox]::Show($form, "For P14s, change Power mode to Best power efficiency (On battery & Plugged in)", "Popup Title", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Information)
-
-    # Open Power & Sleep settings
-    Start-Process "ms-settings:powersleep"
-
-    $form = New-Object System.Windows.Forms.Form
-    $form.TopMost = $true  # Ensure the form is always on top
-    $form.StartPosition = [System.Windows.Forms.FormStartPosition]::CenterScreen
-
-    [System.Windows.Forms.MessageBox]::Show($form, "Click OK to open Windows update after changing Power mode", "Popup Title", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Information)
-
-    # Open Windows update
-    Start-Process "ms-settings:windowsupdate"
-
-} else {
-
-    # If serial number doesn't contain "PF3X", open Windows update
-    Add-Type -AssemblyName System.Windows.Forms
-    $form = New-Object System.Windows.Forms.Form
-    $form.TopMost = $true  # Ensure the form is always on top
-    $form.StartPosition = [System.Windows.Forms.FormStartPosition]::CenterScreen
-
-    # No need prompt[System.Windows.Forms.MessageBox]::Show($form, "Click OK to open Windows update", "Popup Title", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Information)
-
-    # Open Windows update
-    Start-Process "ms-settings:windowsupdate"
-
-}
-
