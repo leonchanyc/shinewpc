@@ -16,8 +16,11 @@ cd $env:USERPROFILE\Downloads
 # Remove previous Lenovo_Vantage folder if it exists
 Remove-Item -Recurse -Force -ErrorAction SilentlyContinue Lenovo_Vantage
 
-# Download Lenovo_Vantage in the background
-$downloadProcess = Start-Process "curl" -ArgumentList "-o", "Lenovo_Vantage.zip", "https://download.lenovo.com/pccbbs/thinkvantage_en/metroapps/Vantage/LenovoCommercialVantage_20.2506.39.0_v17.zip" -PassThru
+# Download Lenovo_Vantage in the background (old, link to lenovo site)
+# $downloadProcess = Start-Process "curl" -ArgumentList "-o", "Lenovo_Vantage.zip", "https://download.lenovo.com/pccbbs/thinkvantage_en/metroapps/Vantage/LenovoCommercialVantage_20.2506.39.0_v17.zip" -PassThru
+
+# Download Lenovo_Vantage in the background (new, craft mirror)
+$downloadProcess = Start-Process "curl" -ArgumentList "-o", "Lenovo_Vantage.zip", "https://secure-res.craft.do/v2/5NdAiybBRwoNGKXQ65qpH6AfbJS7PHYQNrn3KjWHiS62oSVrWoJ7jMt3y7yYGdVUJLfQ7cWoscJZFGsPvELLN8SQX6AKeCQh6M1eZx4nKGgSv4nKUfY8aa8peZyT5Q4E1EEsH6NCxCCedUTsknv9JHqaWzVMMfnSJ8SfetKcL6HGm1nRWMFMr79U7TtxPnd155VGt1oQQpdDfdiDB1nWCQDH9Ju/LenovoCommercialVantage_20.2506.39.0_v17.zip" -PassThru
 
 # Wait for the download to finish
 $downloadProcess.WaitForExit()
