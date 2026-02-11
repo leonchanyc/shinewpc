@@ -42,9 +42,18 @@ $exePath = Join-Path -Path $installLocation -ChildPath "LenovoVantage\Commercial
 # Check if the .exe exists and launch it
 if (Test-Path $exePath) {
     Start-Process $exePath
+    
+    # Wait a moment to ensure the application starts
+    Start-Sleep -Seconds 3
+    
+    # Clean up downloaded files
+    Write-Host "Cleaning up temporary files..."
+    Remove-Item -Path "$env:USERPROFILE\Downloads\Lenovo_Vantage.zip" -Force -ErrorAction SilentlyContinue
+    Remove-Item -Path "$env:USERPROFILE\Downloads\Lenovo_Vantage" -Recurse -Force -ErrorAction SilentlyContinue
+    
+    Write-Host "Installation complete and temporary files cleaned up."
 } else {
     Write-Host "The specified .exe was not found: $exePath"
 }
-
 
 ##########
